@@ -3,7 +3,9 @@
 *.mov
 *.avi
 video/
-hotel-web/hero.mp4
+# KECUALI hero kompres untuk Vercel (<25MB)
+!/public-site/hero.mp4
+!/hotel-web/hero.mp4
 
 # Umum
 node_modules/
