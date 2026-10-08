@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asri Resort — Premium Preview</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1400&q=75&auto=format&fit=crop">
+<script>
+tailwind.config={theme:{extend:{fontFamily:{serif:['Playfair Display','serif'],sans:['Inter','sans-serif']},colors:{ink:'#0B1D1A',pine:'#0E3B33',gold:'#C9A24B'}}}}
+</script>
+<style>
+body{font-family:Inter,sans-serif;background:linear-gradient(180deg,#07100E 0,#07100E 105vh,#0C1F1B 150vh,#123B33 230vh,#0B1D1A 100%);color:#F2EFE4;min-height:100vh}
+/* efek tombol elegan (tanpa three.js) */
+.btn-lux{position:relative;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease}
+.btn-lux:hover{transform:translateY(-2px);box-shadow:0 14px 30px -12px rgba(0,0,0,.5)}
+.btn-lux:active{transform:translateY(0) scale(.98)}
+.btn-lux::after{content:'';position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg)}
+.btn-lux:hover::after{animation:shine .8s ease}
+@keyframes shine{to{left:130%}}
+.btn-ghost{transition:.25s}
+.btn-ghost:hover{background:rgba(255,255,255,.18);transform:translateY(-2px)}
+/* ratakan ke semua tombol: hover angkat, klik tenggelam */
+button{transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+button:active{transform:scale(.97)}
+button:hover{filter:brightness(1.03)}
+.hero{background:linear-gradient(180deg,rgba(5,20,17,.55),rgba(5,20,17,.25) 45%,rgba(246,243,236,1) 100%),url('https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1600&q=80&auto=format&fit=crop') center/cover}
+.glass{background:rgba(255,255,255,.92);backdrop-filter:blur(14px)}
+.card-img{height:190px;object-fit:cover;width:100%}
+.chip{font-size:11px;padding:3px 10px;border-radius:999px;font-weight:700;letter-spacing:.02em}
+.tabbtn{transition:.2s}
+input,select{outline:none}
+input:focus,select:focus{border-color:#0E3B33 !important;box-shadow:0 0 0 3px rgba(14,59,51,.12)}
+.room{transition:.25s}.room:hover{transform:translateY(-3px);box-shadow:0 18px 40px -18px rgba(11,29,26,.35)}
+/* parallax asli: layer depth, bukan geser */
+#bgWrap{will-change:transform}
+#bgWrap .slide{position:absolute;inset:-3%;background-size:cover;background-position:center;opacity:0;transition:opacity 1.5s ease}
+#bgWrap .slide.active{opacity:1}
+#parallaxText{will-change:transform}
+.cap-in{animation:capUp .7s ease}
+@keyframes capUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.float-a{animation:floaty 5s ease-in-out infinite}
+.float-b{animation:floaty 6.5s ease-in-out infinite reverse}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.bar{height:3px;border-radius:99px;background:rgba(255,255,255,.25);overflow:hidden}
+.bar>i{display:block;height:100%;background:#FBBF24;width:0%}
+</style>
+</head>
+<body class="text-[#F2EFE4]">
+
+<!-- LOGIN GATE slideshow hotel -->
+<div id="loginGate" class="fixed inset-0 z-50 overflow-auto" style="display:none;background:#0B1D1A">
+  <div class="fixed inset-0 overflow-hidden" style="background:#0B1D1A"><div id="bgWrap" class="absolute inset-0">
+    <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1400&q=75&auto=format&fit=crop')"></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=1400&q=75&auto=format&fit=crop')"></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1400&q=75&auto=format&fit=crop')"></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&q=75&auto=format&fit=crop')"></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1431540015161-0bf868a2d407?w=1400&q=75&auto=format&fit=crop')"></div>
+  </div></div>
+  <div class="fixed inset-0" style="background:linear-gradient(100deg,rgba(5,15,13,.85) 25%,rgba(5,15,13,.45) 60%,rgba(5,15,13,.15));pointer-events:none"></div>
+  <div class="relative min-h-full grid lg:grid-cols-2 place-items-center p-4 gap-6 max-w-6xl mx-auto">
+    <div id="parallaxText" class="text-white hidden lg:block w-full">
+      <p class="text-amber-300 tracking-[.3em] text-xs font-bold">ASRI RESORT · UBUD ⛰️</p>
+      <h1 class="text-5xl font-bold mt-2 leading-tight" style="font-family:'Playfair Display'">Tidur nyenyak,<br>view gunung.</h1>
+      <div class="mt-4 rounded-2xl p-4 max-w-md" style="background:rgba(255,255,255,.12);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.2)">
+        <p id="slideCap" class="font-semibold">Pool Villa — private pool + taman 120m²</p>
+        <p id="slideSub" class="text-sm text-white/70">Mulai Rp2,5jt/malam · sarapan 4 pax</p>
+        <div class="bar mt-3"><i id="prog"></i></div>
+      </div>
+      <div class="flex gap-2 mt-4 items-center" id="dots"></div>
+      <div class="flex gap-3 mt-5 text-xs">
+        <span class="float-a px-3 py-2 rounded-full" style="background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2)">⭐ 4.9 · 2.300 ulasan</span>
+        <span class="float-b px-3 py-2 rounded-full" style="background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2)">🏊 Infinity pool buka</span>
+      </div>
+    </div>
+  <div class="w-full max-w-md justify-self-center" style="background:rgba(255,255,255,.14);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.25);border-radius:24px;padding:28px;color:#fff">
+    <div class="text-center">
+      <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-400 text-black grid place-items-center font-bold text-xl">A</div>
+      <h1 class="text-2xl font-bold mt-3" style="font-family:'Playfair Display'">Asri Resort</h1>
+      <p class="text-sm text-white/70">Masuk untuk booking & kelola hotel</p>
+      <p class="text-[11px] mt-1 text-white/60 md:hidden" id="slideCapM">Pool Villa — private pool</p>
+    </div>
+    <div class="grid grid-cols-2 rounded-xl p-1 mt-5 text-sm font-semibold" style="background:rgba(255,255,255,.15)">
+      <button id="tabMasuk" onclick="authTab('masuk')" class="py-2 rounded-lg bg-white text-black shadow">Masuk</button>
+      <button id="tabDaftar" onclick="authTab('daftar')" class="py-2 rounded-lg text-white/70">Daftar</button>
+    </div>
+    <div class="grid gap-2 mt-4">
+      <label class="text-xs font-semibold grid gap-1 text-left text-white/90">EMAIL<input id="em" type="email" placeholder="nama@mail.com" class="border rounded-xl px-3 py-2.5 font-normal text-black"></label>
+      <label class="text-xs font-semibold grid gap-1 text-left text-white/90">PASSWORD
+        <span class="relative block"><input id="pw" type="password" placeholder="ketik apa saja (demo)" class="border rounded-xl px-3 py-2.5 font-normal w-full pr-12 text-black"><button onclick="togglePw()" class="absolute right-2 top-2 text-xs text-gray-500">Lihat</button></span>
+      </label>
+      <label id="namaWrap" class="text-xs font-semibold hidden gap-1 text-left text-white/90">NAMA LENGKAP<input id="nm" type="text" placeholder="Nama sesuai KTP" class="border rounded-xl px-3 py-2.5 font-normal text-black"></label>
+      <p id="authErr" class="text-xs text-red-300"></p>
+      <button id="emailBtn" onclick="loginEmail()" class="btn-lux w-full bg-amber-400 text-black rounded-xl px-4 py-3 font-bold hover:bg-amber-300">Masuk →</button>
+    </div>
+    <div class="flex items-center gap-2 my-4"><div class="flex-1 h-px bg-white/20"></div><span class="text-xs text-white/60">atau</span><div class="flex-1 h-px bg-white/20"></div></div>
+    <button onclick="loginGoogle()" class="btn-lux w-full flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold bg-white text-black hover:bg-gray-100">
+      <span class="font-bold" style="color:#4285F4">G</span> Lanjutkan dengan Google
+    </button>
+    <p class="text-[11px] text-white/60 mt-3 text-center">Lupa password? <a href="#" class="underline">Reset via email</a></p>
+  </div>
+  </div>
+</div>
+
+<!-- NAV transparan di atas hero full -->
+<div class="absolute top-0 left-0 right-0 z-20">
+<div class="max-w-6xl mx-auto px-4 md:px-6 py-4 flex flex-wrap items-center gap-2 text-white">
+  <div class="flex items-center gap-2 min-w-0">
+    <div class="w-9 h-9 grid place-items-center font-bold shrink-0 text-lg">◭</div>
+    <div class="min-w-0 leading-none"><p class="font-bold text-sm md:text-base tracking-wide">ASRI RESORT</p><p class="hidden sm:block text-[9px] tracking-[.35em] text-white/70">BOUTIQUE RESORT</p></div>
+  </div>
+  <span id="userBadge" class="hidden text-[11px] px-2 py-1.5 max-w-[120px] truncate md:order-3 text-white/85" title="Klik untuk keluar" style="cursor:pointer" onclick="logout()">👤 <b id="userName">Tamu</b></span>
+  <button id="navToggle" class="ml-auto md:hidden px-3 py-2 text-white text-lg" style="background:none;border:none">☰</button>
+  <div id="navMenu" class="gap-7 items-center basis-full md:basis-auto md:ml-auto" style="display:none">
+    <button onclick="show('tamu')" id="btn-tamu" class="px-1 py-2 text-[12px] tracking-[.15em] font-semibold" style="background:none;border:none;color:#fff">HOME</button>
+    <button onclick="exploreVillas()" class="px-1 py-2 text-[12px] tracking-[.15em] hidden md:block" style="background:none;border:none;color:rgba(255,255,255,.85)">VILLAS</button>
+    <button onclick="show('admin')" id="btn-admin" class="px-1 py-2 text-[12px] tracking-[.15em]" style="background:none;border:none;color:rgba(255,255,255,.85)">STAFF</button>
+    <button onclick="document.getElementById('bookBox').scrollIntoView({behavior:'smooth'})" class="px-6 py-2.5 rounded text-[12px] tracking-[.15em] font-bold text-[#3A2A12]" style="background:#C9A24B;border:none">BOOK NOW</button>
+  </div>
+  <script>
+  (function(){function syncNav(){var m=document.getElementById('navMenu');if(!m)return;if(window.innerWidth>=768){m.style.display='flex';}else if(m.dataset.open!=='1'){m.style.display='none';}}window.addEventListener('resize',syncNav);syncNav();
+  document.getElementById('navToggle').onclick=function(){var m=document.getElementById('navMenu');var open=m.dataset.open==='1';m.dataset.open=open?'':'1';m.style.display=open?'none':'flex';};})();
+  </script>
+</div>
+</div>
+
+<!-- TAMU -->
+<div id="tamu" class="max-w-6xl mx-auto px-3 md:px-4 pb-10">
+  <!-- HERO VIDEO FULL ala Banyan Tree + parallax scroll -->
+  <div id="heroWrap" class="relative text-white overflow-hidden" style="min-height:100svh;width:100vw;margin-left:calc(-50vw + 50%);border-radius:0;background:#07100E">
+    <div id="heroMedia" class="absolute inset-0" style="will-change:transform">
+    <video id="heroVideo" autoplay muted loop playsinline preload="auto" class="absolute inset-0 w-full h-full object-cover" style="opacity:0;transition:opacity .8s ease;background:#07100E">
+      <source src="hero.mp4" type="video/mp4">
+      <source src="https://ubudvalleyresort.com/wp-content/uploads/2024/05/Short1.mp4" type="video/mp4">
+    </video>
+    </div>
+    <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.15) 40%,rgba(11,29,26,.78))"></div>
+    <div class="absolute bottom-0 left-0 right-0 pointer-events-none" style="height:34vh;min-height:230px;background:linear-gradient(180deg,rgba(7,16,14,0) 0%,rgba(7,16,14,.45) 40%,rgba(7,16,14,.85) 70%,#07100E 100%)"></div>
+    <div id="heroContent" class="relative p-6 md:p-12 pt-20 md:pt-28 pb-40 text-center max-w-3xl mx-auto" style="will-change:transform,opacity">
+      <p class="text-[11px] tracking-[.45em] text-amber-200/90">— UBUD · BALI —</p>
+      <h1 class="mt-4" style="font-family:'Playfair Display';font-size:clamp(38px,6.5vw,72px);line-height:1.04;font-weight:600">A Valley of<br><em style="font-style:italic;font-weight:400">Quiet Luxury</em></h1>
+      <p class="mt-4 text-white/75 text-sm md:text-[15px] max-w-xl mx-auto" style="letter-spacing:.02em">Private pool villas above the Pakerisan river — jungle silence, teak Joglo craft.</p>
+    </div>
+  </div>
+  <div class="max-w-6xl mx-auto px-3 md:px-4">
+  <div id="bookBox" class="relative mx-auto rounded-full p-2 pl-6 grid md:grid-cols-[1fr_1fr_0.7fr_auto] gap-2 items-center shadow-2xl" style="max-width:880px;margin-top:-110px;background:rgba(250,247,240,.97);color:#0B1D1A;z-index:5">
+      <label class="grid gap-0 text-left px-2 md:border-r border-stone-200"><span class="text-[10px] tracking-[.25em] text-stone-500">CHECK-IN</span><input id="ci" type="date" value="2026-10-10" class="bg-transparent py-1.5 font-semibold outline-none"></label>
+      <label class="grid gap-0 text-left px-2 md:border-r border-stone-200"><span class="text-[10px] tracking-[.25em] text-stone-500">CHECK-OUT</span><input id="co" type="date" value="2026-10-12" class="bg-transparent py-1.5 font-semibold outline-none"></label>
+      <label class="grid gap-0 text-left px-2"><span class="text-[10px] tracking-[.25em] text-stone-500">GUESTS</span><select id="dw" class="bg-transparent py-1.5 font-semibold outline-none"><option>1</option><option selected>2</option><option>4</option></select></label>
+      <div class="p-1"><button onclick="cari()" class="btn-lux rounded-full px-7 py-3.5 font-semibold text-sm whitespace-nowrap text-white" style="background:rgba(26,46,40,.55);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.3)">Check Availability →</button></div>
+    </div>
+    <p id="err" class="text-sm text-red-300 px-6 pt-2 text-center"></p>
+  </div>
+  <div class="max-w-6xl mx-auto px-3 md:px-4">
+  <p class="text-center text-sm mt-6 italic text-white/50" style="font-family:'Playfair Display'">Reconnect with nature, rediscover yourself — experience the luxury of silence.</p>
+
+  <div class="mt-12 text-center max-w-2xl mx-auto" id="villasTitle">
+    <p class="text-[11px] tracking-[.4em] text-amber-200/80">01 — YOUR PRIVATE SANCTUARY</p>
+    <h2 class="mt-2 text-white" style="font-family:'Playfair Display';font-size:32px">Villas that breathe with nature</h2>
+    <p class="text-sm mt-2 italic text-white/60" style="font-family:'Playfair Display'">Teak wood · valley view · birdsong morning</p>
+    <p id="count" class="inline-block mt-2 text-[11px] tracking-widest border border-white/25 px-3 py-1 rounded-full text-white/70"></p>
+  </div>
+  <div class="relative mt-6">
+    <div id="list" class="flex gap-5 overflow-x-auto pb-4 px-1" style="scroll-snap-type:x mandatory;scrollbar-width:none"></div>
+    <button id="villaPrev" onclick="villaGo(-1)" aria-label="Sebelumnya" class="hidden md:grid place-items-center absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full text-white text-xl font-bold" style="background:rgba(10,20,17,.35);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.35)">‹</button>
+    <button id="villaNext" onclick="villaGo(1)" aria-label="Berikutnya" class="grid place-items-center absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full text-white text-xl font-bold" style="background:rgba(10,20,17,.35);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.35)">›</button>
+  </div>
+  <script>(function(){var w=document.getElementById('list');if(!w)return;var p=document.getElementById('villaPrev'),n=document.getElementById('villaNext');function sync(){var max=w.scrollWidth-w.clientWidth-8;p.style.opacity=w.scrollLeft>8?'1':'0';p.style.pointerEvents=w.scrollLeft>8?'auto':'none';n.style.opacity=w.scrollLeft<max?'1':'0';n.style.pointerEvents=w.scrollLeft<max?'auto':'none';}w.addEventListener('scroll',()=>requestAnimationFrame(sync),{passive:true});window.addEventListener('resize',sync);setTimeout(sync,400);window.villaGo=function(d){w.scrollBy({left:d*(w.clientWidth*0.7),behavior:'smooth'});};})();</script>
+
+  <div class="mt-10 mx-auto rounded-[28px] overflow-hidden" style="max-width:1280px;background:linear-gradient(180deg,#10241F,#0A1A17);border:1px solid rgba(201,162,75,.16)">
+    <h2 class="text-center pt-8 md:pt-10" style="font-family:'Playfair Display';font-size:26px;letter-spacing:.02em">SERVICES & FACILITIES</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 p-3 md:p-4 mt-4">
+      <a href="preview-order.html" class="relative overflow-hidden group block rounded-2xl" style="aspect-ratio:3/4.8"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=85&auto=format&fit=crop" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-110"><div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.72))"></div><p class="absolute bottom-5 left-5 right-4 text-xl" style="font-family:'Playfair Display'">Pakerisan Restaurant</p></a>
+      <div class="relative overflow-hidden group rounded-2xl" style="aspect-ratio:3/4.8"><img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1920&q=85&auto=format&fit=crop" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-110"><div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.72))"></div><p class="absolute bottom-5 left-5 right-4 text-xl" style="font-family:'Playfair Display'">Candra Spa</p></div>
+      <div class="relative overflow-hidden group rounded-2xl" style="aspect-ratio:3/4.8"><img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1920&q=85&auto=format&fit=crop" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-110"><div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.72))"></div><p class="absolute bottom-5 left-5 right-4 text-xl" style="font-family:'Playfair Display'">Free Yoga Activities</p></div>
+      <div class="relative overflow-hidden group rounded-2xl" style="aspect-ratio:3/4.8"><img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1920&q=85&auto=format&fit=crop" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-110"><div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.72))"></div><p class="absolute bottom-5 left-5 right-4 text-xl" style="font-family:'Playfair Display'">Swimming Pool</p></div>
+    </div>
+    <div class="h-5"></div>
+  </div>
+
+  <div class="rounded-3xl mt-6 p-6 md:p-8 text-white flex flex-col md:flex-row gap-4 items-center" style="background:linear-gradient(120deg,#0B1D1A,#134E4A)">
+    <div class="flex-1"><h3 class="text-xl font-bold" style="font-family:'Playfair Display'">Lapar di kamar? Scan QR, 15 menit sampai.</h3><p class="text-sm text-white/70">Tidak perlu telpon. Order masuk dapur + folio otomatis.</p></div>
+    <button onclick="window.location.href='preview-order.html'" class="btn-lux px-5 py-3 bg-amber-400 text-black font-bold rounded-xl text-sm">Lihat Menu Resto →</button>
+  </div>
+
+  <div id="voucher" class="hidden mt-4 bg-ink text-white rounded-3xl p-6 md:flex gap-6 items-center">
+    <div class="flex-1">
+      <p class="text-gold text-xs tracking-[.3em] font-bold">E-VOUCHER BERHASIL</p>
+      <p class="font-serif text-3xl font-bold mt-1" id="kode">HTL-2026-0001</p>
+      <p id="vdesc" class="text-white/70 text-sm mt-1"></p>
+    </div>
+    <div class="flex gap-2"><button class="btn-lux px-4 py-2.5 bg-gold text-ink font-semibold rounded-xl text-sm">Kirim ke WA</button><button class="btn-ghost px-4 py-2.5 border border-white/30 rounded-xl text-sm">Unduh PDF</button></div>
+  </div>
+  <div class="mt-8 rounded-[24px] p-5" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px)">
+    <p class="text-[11px] tracking-[.3em] text-amber-200/70">MY BOOKINGS — TAMU SAJA</p>
+    <h3 class="font-bold text-lg text-white" style="font-family:'Playfair Display'">Pesanan saya</h3>
+    <div class="grid md:grid-cols-2 gap-3 mt-3">
+      <div class="border rounded-2xl p-4 bg-white"><p class="font-bold text-sm">HTL-2026-0001 · Deluxe King</p><p class="text-xs text-stone-500">10 → 12 Okt · confirmed · sisa Rp1.165.000</p><div class="flex gap-2 mt-2"><button class="text-xs border rounded-lg px-3 py-1.5">Voucher</button><button class="btn-lux text-xs bg-emerald-900 text-white rounded-lg px-3 py-1.5">Bayar Sisa</button></div></div>
+      <div class="border rounded-2xl p-4 bg-white"><p class="font-bold text-sm">HTL-2026-0007 · Pool Villa</p><p class="text-xs text-stone-500">1 → 3 Nov · pending · sisa Rp6.160.000</p><div class="flex gap-2 mt-2"><button class="text-xs border rounded-lg px-3 py-1.5">Voucher</button><button class="btn-lux text-xs bg-emerald-900 text-white rounded-lg px-3 py-1.5">Bayar Sisa</button></div></div>
+    </div>
+    <p class="text-[11px] text-stone-400 mt-2">File Next.js-nya: <b>app/(public)/account/page.tsx</b> (sudah jadi, tinggal copy).</p>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin" class="hidden max-w-6xl mx-auto px-4 pb-10">
+  <!-- FO / OWNER view -->
+  <div id="foView">
+  <div class="bg-ink text-white rounded-3xl mt-4 p-6 flex flex-wrap items-center gap-4">
+    <div><p class="text-gold text-xs tracking-[.25em] font-bold">FRONT OFFICE • 10 OKT 2026</p><h2 class="font-serif text-3xl font-bold">Operasional hari ini</h2></div>
+    <button class="ml-auto px-4 py-2.5 bg-gold text-ink font-semibold rounded-xl text-sm">+ Walk-in cepat</button>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+    <div class="rounded-2xl p-4" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-left:4px solid #60A5FA"><p class="text-[11px] text-white/60">ARRIVAL</p><p class="text-3xl font-bold text-white">2</p><p class="text-xs text-blue-300">perlu assign kamar</p></div>
+    <div class="rounded-2xl p-4" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-left:4px solid #34D399"><p class="text-[11px] text-white/60">IN-HOUSE</p><p class="text-3xl font-bold text-white">3</p><p class="text-xs text-emerald-300">terisi 68%</p></div>
+    <div class="rounded-2xl p-4" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-left:4px solid #FB923C"><p class="text-[11px] text-white/60">DEPARTURE</p><p class="text-3xl font-bold text-white">1</p><p class="text-xs text-orange-300">cek folio dulu</p></div>
+    <div class="rounded-2xl p-4" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-left:4px solid #FBBF24"><p class="text-[11px] text-white/60">KOTOR</p><p class="text-3xl font-bold text-white">2</p><p class="text-xs text-amber-300">tugas OB</p></div>
+  </div>
+  <div class="rounded-2xl p-5 mt-4 text-white" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)">
+    <h3 class="font-bold">Arrival hari ini</h3>
+    <div class="grid md:grid-cols-2 gap-3 mt-3">
+      <div class="rounded-2xl p-4 flex items-center gap-3" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)"><div class="w-11 h-11 rounded-full bg-blue-500/20 grid place-items-center font-bold text-blue-200">B</div><div class="flex-1"><p class="font-semibold text-sm">Budi · Deluxe <span class="chip bg-blue-500/20 text-blue-200 ml-1">confirmed</span></p><p class="text-xs text-white/60">HTL-2026-0001 · 2 malam · Rp1.665.000</p></div><button onclick="checkin(this,'Budi')" class="btn-lux px-3 py-2 bg-amber-400 text-black rounded-xl text-sm font-bold">Check-In</button></div>
+      <div class="rounded-2xl p-4 flex items-center gap-3" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)"><div class="w-11 h-11 rounded-full bg-purple-500/20 grid place-items-center font-bold text-purple-200">J</div><div class="flex-1"><p class="font-semibold text-sm">John (OTA) · Villa <span class="chip bg-blue-500/20 text-blue-200 ml-1">confirmed</span></p><p class="text-xs text-white/60">HTL-2026-0004 · 3 malam · Rp8.360.000</p></div><button onclick="checkin(this,'John')" class="btn-lux px-3 py-2 bg-amber-400 text-black rounded-xl text-sm font-bold">Check-In</button></div>
+    </div>
+    <p id="ci-msg" class="text-sm text-emerald-300 mt-2 font-medium"></p>
+  </div>
+  </div><!-- /foView -->
+  <!-- OB view: full tugas, tanpa angka revenue -->
+  <div id="obView" class="hidden">
+    <div class="rounded-3xl mt-4 p-6 text-white" style="background:linear-gradient(120deg,#0B1D1A,#134E4A)">
+      <p class="text-xs tracking-[.3em] text-amber-300 font-bold">HOUSEKEEPING · TUGAS SAYA</p>
+      <h2 class="text-2xl font-bold" style="font-family:'Playfair Display'">Halo OB 👋, 3 kamar menunggu</h2>
+      <p class="text-sm text-white/70">Tanpa login rumit · tombol besar · selesai otomatis jadi bersih</p>
+    </div>
+  </div>
+  <div class="rounded-2xl p-5 mt-4 text-white" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)">
+    <h3 class="font-bold">Housekeeping</h3>
+    <div class="grid md:grid-cols-3 gap-3 mt-3" id="hk"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="mt-14 text-white/80" style="border-top:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.25)">
+  <div class="max-w-6xl mx-auto px-4 py-10 grid gap-8 md:grid-cols-4">
+    <div><p class="font-bold text-white tracking-wide">◭ ASRI RESORT</p><p class="text-[10px] tracking-[.3em] text-white/50">BOUTIQUE RESORT · UBUD</p>
+      <p class="text-xs mt-3 leading-relaxed">Jl. Raya Pakerisan KM 4, Pejeng Kangin<br>Tampaksiring, Gianyar, Bali 80552</p></div>
+    <div><p class="text-[11px] tracking-[.3em] text-amber-200/80 font-bold">EXPLORE</p><div class="grid gap-1.5 mt-3 text-sm"><a href="#" class="hover:text-white">Homepage</a><a href="#" class="hover:text-white">Accommodation</a><a href="#" class="hover:text-white">Services & Facilities</a><a href="#" class="hover:text-white">Packages & Offers</a><a href="#" class="hover:text-white">Contact us</a></div></div>
+    <div><p class="text-[11px] tracking-[.3em] text-amber-200/80 font-bold">CONNECT</p><div class="grid gap-1.5 mt-3 text-sm"><a href="tel:+62361479888">+62 361 479 888</a><a href="https://wa.me/62812479888">+62 812 479 888 (WA)</a><a href="mailto:stay@asriresortubud.com">stay@asriresortubud.com</a><a href="#">Lihat di Google Maps →</a></div></div>
+    <div><p class="text-[11px] tracking-[.3em] text-amber-200/80 font-bold">REVIEWS</p><p class="text-sm mt-3">⭐ 4.9/5 · 2.300+ ulasan TripAdvisor</p><p class="text-sm">9.8/10 · 840+ ulasan Booking.com</p><p class="text-[11px] text-white/50 mt-2">Check-in 14:00 · Check-out 12:00</p></div>
+  </div>
+  <div class="text-center text-[11px] text-white/40 pb-6">© 2026 Asri Resort Ubud · Best rate guarantee</div>
+</footer>
+
+<script>
+const types=[
+ {id:'deluxe',nama:'Deluxe King',kap:2,wd:750000,we:950000,img:'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=600&q=70&auto=format&fit=crop',tag:'Best seller',desc:'Balkon gunung · Bathtub · 32m²'},
+ {id:'superior',nama:'Superior Twin',kap:2,wd:650000,we:800000,img:'https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&q=70&auto=format&fit=crop',tag:'Hemat',desc:'City view · 28m² · cocok bisnis'},
+ {id:'family',nama:'Family Room',kap:4,wd:1200000,we:1450000,img:'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=600&q=70&auto=format&fit=crop',tag:'Anak friendly',desc:'45m² · Sofa · Microwave'},
+ {id:'suite',nama:'Executive Suite',kap:3,wd:1500000,we:1800000,img:'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=70&auto=format&fit=crop',tag:'Lounge access',desc:'60m² · Ruang tamu · Coffee maker'},
+ {id:'villa',nama:'Pool Villa',kap:4,wd:2500000,we:3200000,img:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&q=70&auto=format&fit=crop',tag:'Private pool',desc:'120m² · Taman · BBQ area'},
+ {id:'meeting',nama:'Meeting Room',kap:20,wd:1500000,we:1500000,img:'https://images.unsplash.com/photo-1431540015161-0bf868a2d407?w=600&q=70&auto=format&fit=crop',tag:'Half day',desc:'50 pax · Projector · Coffee break'},
+];
+const sisa={deluxe:4,superior:3,family:2,suite:2,villa:2,meeting:1};
+const rp=n=>'Rp'+n.toLocaleString('id-ID');
+function malam(a,b){return Math.round((new Date(b)-new Date(a))/86400000);}
+function isWknd(d){const x=new Date(d).getDay();return x===0||x===5||x===6;}
+function cari(scroll=true){
+  const ci=document.getElementById('ci').value, co=document.getElementById('co').value, dw=+document.getElementById('dw').value;
+  const err=document.getElementById('err'), list=document.getElementById('list');
+  if(!ci||!co){err.textContent='Tanggal wajib diisi';return;}
+  if(co<=ci){err.textContent='Tanggal check-out harus setelah check-in';return;}
+  err.textContent='';
+  const m=malam(ci,co);
+  const hasil=types.filter(t=>t.id==='meeting'?true:t.kap>=dw);
+  document.getElementById('count').textContent=hasil.length+' tipe · '+m+' malam';
+  if(scroll) document.getElementById('villasTitle').scrollIntoView({behavior:'smooth',block:'start'});
+  list.innerHTML=hasil.map(t=>{
+    const h=isWknd(ci)?t.we:t.wd, sub=h*m, paj=Math.round(sub*0.11), tot=sub+paj;
+    return `<div class="group relative shrink-0 overflow-hidden rounded-[20px] text-white" style="width:min(84vw,360px);aspect-ratio:4/6;scroll-snap-align:start">
+      <img src="${t.img}" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-110">
+      <img src="${t.img}" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-110">
+      <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(0,0,0,.05) 40%,rgba(0,0,0,.78))"></div>
+      <span class="absolute top-3 left-3 text-[10px] tracking-[.2em] font-bold text-amber-200 px-3 py-1.5 rounded-full" style="background:rgba(0,0,0,.55);backdrop-filter:blur(6px)">${t.tag.toUpperCase()}</span>
+      <div class="absolute bottom-0 p-4 w-full">
+        <p class="text-[10px] tracking-[.3em] text-white/70">0${hasil.indexOf(t)+1} — PRIVATE SANCTUARY</p>
+        <p class="font-bold text-xl leading-tight" style="font-family:'Playfair Display'">${t.nama}</p>
+        <p class="text-[11px] text-white/75 mt-0.5">1 king · up to ${t.kap||2} guests</p>
+        <p class="font-bold text-lg mt-1.5">${rp(tot)}</p>
+        <p class="text-[11px] text-white/65">${rp(h)} × ${m} malam incl. pajak · sisa ${sisa[t.id]}</p>
+        <button onclick="pilih('${t.nama}','${rp(tot)} · ${m} malam')" class="btn-lux mt-2.5 w-full py-2.5 bg-amber-400 text-black rounded-xl text-sm font-bold">Book now →</button>
+      </div></div>`;
+  }).join('');
+}
+function exploreVillas(){
+  cari();
+  setTimeout(()=>document.getElementById('villasTitle').scrollIntoView({behavior:'smooth',block:'start'}),80);
+}
+// Hero: main 10 detik awal saja + mute (sesuai request) + fade-in anti-flash
+(function(){
+ var v=document.getElementById('heroVideo'); if(!v) return;
+ v.muted=true;
+ var show=function(){ v.style.opacity='1'; };
+ v.addEventListener('canplay',show);
+ v.addEventListener('playing',show);
+ setTimeout(show,2500); // fallback kalau event telat
+ v.addEventListener('timeupdate',()=>{ if(v.currentTime>10) v.currentTime=0; });
+})();
+// Parallax scroll ala Banyan Tree: gambar pelan naik saat discroll
+(function(){
+ var ticking=false;
+ function onScroll(){
+  if(ticking) return; ticking=true;
+  requestAnimationFrame(()=>{
+   var y=window.scrollY||0;
+   var m=document.getElementById('heroMedia'), c=document.getElementById('heroContent');
+   if(c && y<900){ c.style.transform=`translateY(${y*0.12}px)`; c.style.opacity=Math.max(0,1-y/650); }
+   ticking=false;
+  });
+ }
+ window.addEventListener('scroll',onScroll,{passive:true});
+})();
+function pilih(nama,total){
+  document.getElementById('voucher').classList.remove('hidden');
+  document.getElementById('kode').textContent='HTL-2026-'+Math.floor(1000+Math.random()*9000);
+  document.getElementById('vdesc').textContent=nama+' · '+total+' · tunjukkan kode ini saat check-in (14:00)';
+  document.getElementById('voucher').scrollIntoView({behavior:'smooth'});
+}
+let hk=[{n:'201 · Checkout clean',s:'todo'},{n:'203 · Daily clean',s:'todo'},{n:'301 · Villa touch-up',s:'progress'}];
+function renderHk(){
+  document.getElementById('hk').innerHTML=hk.map((t,i)=>`<div class="border rounded-2xl p-4 ${t.s==='progress'?'border-emerald-400 bg-emerald-50':''}"><p class="font-bold text-sm">Kamar ${t.n}</p><p class="text-xs mt-1"><span class="chip ${t.s==='todo'?'bg-amber-100 text-amber-800':'bg-emerald-100 text-emerald-800'}">${t.s}</span></p><button onclick="hkDone(${i})" class="btn-lux mt-3 w-full py-2.5 rounded-xl text-sm font-semibold ${t.s==='todo'?'bg-amber-500 text-white':'bg-emerald-600 text-white'}">${t.s==='todo'?'Ambil tugas':'Selesai ✓'}</button></div>`).join('')||'<p class="text-sm text-gray-500">Semua bersih ✓</p>';
+}
+function hkDone(i){ hk[i].s = hk[i].s==='todo'?'progress':'done'; if(hk[i].s==='done') hk.splice(i,1); renderHk(); }
+function checkin(btn,nama){btn.textContent='✓ In-House';btn.className='px-3 py-2 bg-emerald-100 text-emerald-800 rounded-xl text-sm font-semibold';document.getElementById('ci-msg').textContent=`${nama} check-in kamar 101 · folio dibuka · selamat datang!`;}
+function show(w){
+  document.getElementById('tamu').classList.toggle('hidden',w!=='tamu');
+  document.getElementById('admin').classList.toggle('hidden',w!=='admin');
+  // Nav transparan: tandai aktif dengan underline emas, tanpa pill/border
+  const bt=document.getElementById('btn-tamu'), ba=document.getElementById('btn-admin');
+  if(bt) bt.style.textDecoration=w==='tamu'?'underline':'none';
+  if(ba) ba.style.textDecoration=w==='admin'?'underline':'none';
+  const m=document.getElementById('navMenu'); if(window.innerWidth<768&&m){m.style.display='none';m.dataset.open='';}
+}
+function syncNavByRole(){
+  const em=(currentUser?.email||'').toLowerCase();
+  const isStaff = currentUser && currentUser.role==='staff';
+  const isOB = em.includes('ob');
+  const bt=document.getElementById('btn-tamu'), ba=document.getElementById('btn-admin');
+  if(!isStaff){ if(ba) ba.style.display='none'; if(bt){bt.style.display='';} show('tamu'); return; }
+  if(bt) bt.style.display=''; if(ba){ba.style.display='';}
+  const fo=document.getElementById('foView'), ob=document.getElementById('obView');
+  if(isOB){ if(fo) fo.style.display='none'; if(ob) ob.classList.remove('hidden'); }
+  else { if(fo) fo.style.display=''; if(ob) ob.classList.add('hidden'); }
+  show('admin');
+}
+let currentUser=null;
+let mode='masuk';
+function authTab(m){
+  mode=m;
+  document.getElementById('tabMasuk').className=m==='masuk'?'py-2 rounded-lg bg-white text-black shadow':'py-2 rounded-lg text-white/70';
+  document.getElementById('tabDaftar').className=m==='daftar'?'py-2 rounded-lg bg-white text-black shadow':'py-2 rounded-lg text-white/70';
+  document.getElementById('namaWrap').classList.toggle('hidden',m!=='daftar');
+  document.getElementById('namaWrap').classList.toggle('grid',m==='daftar');
+  document.getElementById('emailBtn').textContent=m==='daftar'?'Daftar Akun →':'Masuk →';
+  document.getElementById('authErr').textContent='';
+}
+// Slideshow sinematik: crossfade + ken burns + progress
+const SLIDES=[
+ {cap:'Asri Resort — lobby & kolam utama',sub:'Selamat datang · check-in 14:00'},
+ {cap:'Deluxe King — balkon gunung + bathtub',sub:'Rp750rb/malam · best seller'},
+ {cap:'Infinity pool + sunset lounge',sub:'Buka 07:00–19:00 · gratis tamu'},
+ {cap:'Asri Resto — makan malam tepi kolam',sub:'Scan QR kamar · tagih ke folio'},
+ {cap:'Meeting room — 50 pax + coffee break',sub:'Half day Rp1,5jt · full day 2,5jt'},
+];
+let si=0, progT=null;
+function renderDots(){
+ const d=document.getElementById('dots'); if(!d) return;
+ d.innerHTML=SLIDES.map((_,i)=>`<button onclick="goSlide(${i})" style="width:${i===si?28:8}px;height:8px;border-radius:99px;background:${i===si?'#FBBF24':'rgba(255,255,255,.4)'};transition:.4s"></button>`).join('');
+}
+function goSlide(i){ si=i; applySlide(); restartProg(); }
+function applySlide(){
+ const slides=document.querySelectorAll('#bgWrap .slide');
+ slides.forEach((s,k)=>s.classList.toggle('active',k===si));
+ const c=document.getElementById('slideCap'); if(c){ c.textContent=SLIDES[si].cap; c.classList.remove('cap-in'); void c.offsetWidth; c.classList.add('cap-in'); }
+ const s2=document.getElementById('slideSub'); if(s2) s2.textContent=SLIDES[si].sub;
+ const m=document.getElementById('slideCapM'); if(m) m.textContent=SLIDES[si].cap;
+ renderDots();
+}
+// Parallax asli: background + teks gerak beda kecepatan ikut mouse
+document.getElementById('loginGate').addEventListener('mousemove',(e)=>{
+ const x=(e.clientX/window.innerWidth-0.5), y=(e.clientY/window.innerHeight-0.5);
+ const bg=document.getElementById('bgWrap'); if(bg) bg.style.transform=`translate(${x*-18}px,${y*-14}px)`;
+ const pt=document.getElementById('parallaxText'); if(pt) pt.style.transform=`translate(${x*22}px,${y*16}px)`;
+});
+function restartProg(){
+ const bar=document.getElementById('prog'); if(!bar) return;
+ bar.style.transition='none'; bar.style.width='0%';
+ void bar.offsetWidth;
+ bar.style.transition='width 5s linear'; bar.style.width='100%';
+ if(progT) clearInterval(progT);
+ progT=setInterval(()=>{ si=(si+1)%SLIDES.length; applySlide(); restartProg(); },5000);
+}
+applySlide(); restartProg();
+function togglePw(){ const i=document.getElementById('pw'); i.type=i.type==='password'?'text':'password'; }
+function finishLogin(email){
+  const role = email.includes('@hotel') ? 'staff' : 'tamu';
+  currentUser={email, role};
+  try{ sessionStorage.setItem('asri_user',JSON.stringify(currentUser)); }catch(e){}
+  document.getElementById('loginGate').style.display='none';
+  document.getElementById('userBadge').classList.remove('hidden');
+  document.getElementById('userName').textContent=email;
+  syncNavByRole();
+  window.scrollTo(0,0);
+}
+function loginEmail(){
+  // MODE DEMO BEBAS: ketik apa saja bisa masuk, biar gampang dicoba siapapun
+  let em=document.getElementById('em').value.trim();
+  let pw=document.getElementById('pw').value;
+  const err=document.getElementById('authErr');
+  if(!em) em = 'demo@gmail.com'; // kosong otomatis jadi demo
+  if(!pw) pw = '123456';
+  // tidak ada validasi keras di mode demo
+  err.textContent='';
+  finishLogin(em);
+}
+function loginGoogle(role){
+  // Simulasi popup Google — aslinya: supabase.auth.signInWithOAuth({provider:'google'})
+  finishLogin(role==='staff' ? 'fo@hotel.com' : 'budi@gmail.com');
+}
+function quickLogin(role){ loginGoogle(role); }
+function logout(){
+  currentUser=null;
+  try{ sessionStorage.removeItem('asri_user'); }catch(e){}
+  document.getElementById('loginGate').style.display='block';
+  document.getElementById('userBadge').classList.add('hidden');
+}
+try{
+ var saved=sessionStorage.getItem('asri_user');
+ if(saved){ var u=JSON.parse(saved); currentUser=u;
+  document.getElementById('loginGate').style.display='none';
+  document.getElementById('userBadge').classList.remove('hidden');
+  document.getElementById('userName').textContent=u.email;
+  syncNavByRole();
+ } else {
+  document.getElementById('loginGate').style.display='block';
+ }
+}catch(e){ document.getElementById('loginGate').style.display='block'; }
+cari(false); renderHk();
+</script>
+</body>
+</html>

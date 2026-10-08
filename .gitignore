@@ -1,0 +1,15 @@
+# Video & aset besar JANGAN masuk GitHub (limit 100MB/file)
+*.mp4
+*.mov
+*.avi
+video/
+hotel-web/hero.mp4
+
+# Umum
+node_modules/
+.next/
+out/
+.env
+.env.local
+.DS_Store
+Thumbs.db

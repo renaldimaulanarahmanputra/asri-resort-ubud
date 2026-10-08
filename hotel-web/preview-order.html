@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Order QR Kamar 201 — Asri Resto</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body{font-family:Inter,sans-serif;background:linear-gradient(180deg,#07100E,#0B1D1A 35%,#123B33 70%,#0B1D1A);color:#F2EFE4;min-height:100vh}
+button{transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+button:hover{filter:brightness(1.05);transform:translateY(-1px)}
+button:active{transform:scale(.97)}
+.bg-hero{background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(7,16,14,.82) 62%,#07100E 100%),url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80&auto=format&fit=crop') center/cover;position:relative}
+.bg-hero::after{content:'';position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(180deg,rgba(7,16,14,0),rgba(7,16,14,.7) 55%,#07100E);pointer-events:none;z-index:0}
+.bg-hero>*{position:relative;z-index:1}
+.glass{background:rgba(255,255,255,.12);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.22)}
+.glass-strong{background:rgba(20,12,7,.72);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.16)}
+.food{height:120px;width:120px;object-fit:cover;border-radius:18px;flex-shrink:0}
+.card{transition:.2s}.card:hover{transform:translateY(-2px)}
+.qtybtn{width:32px;height:32px;border-radius:10px;font-weight:700}
+</style>
+</head>
+<body class="text-white">
+<div class="bg-hero sticky top-0 z-10 pb-6 pt-6 px-4">
+  <div class="max-w-2xl mx-auto">
+    <button onclick="window.location.href='preview-hotel.html'" class="mb-4 px-4 py-2 rounded-full text-[11px] tracking-[.2em] font-semibold text-white/85 hover:text-white" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(8px)">← HOME</button>
+    <p class="text-[10px] tracking-[.45em] font-bold" style="color:#E9C97B">— ROOM SERVICE · KAMAR 201 —</p>
+    <h1 class="mt-2" style="font-family:'Playfair Display';font-size:34px;line-height:1.1;font-weight:600">Dinner, <em style="font-style:italic;font-weight:400;color:#E9C97B">without leaving bed</em></h1>
+    <div class="mt-3 flex items-center gap-3 text-[11px] text-white/65">
+      <span>Sisa limit <b class="text-white">Rp700.000</b></span><span style="opacity:.3">|</span><span>1 struk saat check-out</span><span class="ml-auto px-3 py-1.5 rounded-full font-bold text-black text-[11px]" style="background:#E9C97B">Dapur s/d 22:00</span>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-2xl mx-auto p-4 grid gap-3 -mt-2">
+  <div class="flex gap-2 text-xs font-semibold" id="cats">
+    <button data-cat="semua" onclick="setFilter('semua')" class="px-4 py-2 rounded-full bg-amber-400 text-black">Semua</button>
+    <button data-cat="makanan" onclick="setFilter('makanan')" class="px-4 py-2 rounded-full glass">Makanan</button>
+    <button data-cat="minuman" onclick="setFilter('minuman')" class="px-4 py-2 rounded-full glass">Minuman</button>
+    <button data-cat="premium" onclick="setFilter('premium')" class="px-4 py-2 rounded-full glass">Premium ⭐</button>
+  </div>
+  <div id="menu" class="grid gap-3"></div>
+
+  <div class="glass-strong rounded-3xl p-4 grid gap-2 sticky bottom-3 shadow-2xl">
+    <div class="flex items-center"><p class="font-bold" id="total"></p><span id="splitBadge" class="ml-auto text-[11px] font-bold px-3 py-1 rounded-full"></span></div>
+    <p class="text-xs opacity-80" id="splitInfo"></p>
+    <input id="pin" maxlength="4" inputmode="numeric" placeholder="🔑 PIN kamar 4 digit (di key holder)" class="rounded-xl px-3 py-2.5 text-sm text-black">
+    <button onclick="pesan()" id="btn" class="bg-amber-400 hover:bg-amber-300 text-black rounded-2xl py-3 font-bold"></button>
+  </div>
+
+  <div class="glass rounded-3xl p-4"><h2 class="font-bold text-sm">👨‍🍳 Dapur live (1 app sama)</h2><div id="kit" class="grid gap-2 mt-2"></div></div>
+</div>
+
+<script>
+const MENU=[
+ {id:'nasgor',n:'Nasi Goreng Special + Telur',h:45000,cat:'makanan',img:'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&q=80&auto=format&fit=crop',badge:'🔥 Favorit'},
+ {id:'ayam',n:'Ayam Bakar Madu + Nasi Liwet',h:55000,cat:'makanan',img:'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&q=80&auto=format&fit=crop',badge:'Smoky'},
+ {id:'mie',n:'Mie Goreng Jawa Kompor Arang',h:40000,cat:'makanan',img:'https://images.unsplash.com/photo-1585032226651-759b368d7246?w=400&q=80&auto=format&fit=crop',badge:''},
+ {id:'sate',n:'Sate Ayam 10 Tusuk + Lontong',h:60000,cat:'makanan',img:'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80&auto=format&fit=crop',badge:'Arang asli'},
+ {id:'kopi',n:'Kopi Tubruk Gayo',h:25000,cat:'minuman',img:'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80&auto=format&fit=crop',badge:''},
+ {id:'jus',n:'Jus Alpukat + Coklat',h:30000,cat:'minuman',img:'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=400&q=80&auto=format&fit=crop',badge:'Fresh'},
+ {id:'lobster',n:'Lobster Bakar Jimbaran (400g)',h:250000,cat:'premium',img:'https://images.unsplash.com/photo-1559742811-822873691df8?w=400&q=80&auto=format&fit=crop',badge:'⭐ Premium'},
+];
+let filter='semua';
+function setFilter(c){
+ filter=c;
+ document.querySelectorAll('#cats button').forEach(b=>{
+  const on=b.dataset.cat===c;
+  b.className='px-4 py-2 rounded-full '+(on?'bg-amber-400 text-black':'glass');
+ });
+ render();
+}
+const limit=1000000, dipakai=300000, sisa=limit-dipakai;
+let cart={nasgor:1,sate:1};
+const rp=n=>'Rp'+n.toLocaleString('id-ID');
+const li=document.getElementById('limitInfo'); if(li) li.textContent=`Sisa limit tagih kamar ${rp(sisa)} · limit ${rp(limit)}`;
+function render(){
+ let total=Object.entries(cart).reduce((s,[k,q])=>s+(MENU.find(m=>m.id===k).h*q),0);
+ const shown=MENU.filter(m=>filter==='semua'||m.cat===filter);
+ document.getElementById('menu').innerHTML=shown.map(m=>`
+  <div class="card glass rounded-3xl p-3 flex gap-3 items-center">
+   <div class="relative"><img src="${m.img}" class="food" loading="lazy">${m.badge?`<span class="absolute top-2 left-2 text-[10px] font-bold bg-black/70 px-2 py-1 rounded-full">${m.badge}</span>`:''}</div>
+   <div class="flex-1 min-w-0"><p class="font-bold text-sm leading-tight">${m.n}</p><p class="text-amber-300 font-bold text-sm mt-1">${rp(m.h)}</p>
+    <div class="flex items-center gap-2 mt-2"><button onclick="ch('${m.id}',-1)" class="qtybtn glass">−</button><b class="w-6 text-center text-sm">${cart[m.id]||0}</b><button onclick="ch('${m.id}',1)" class="qtybtn bg-amber-400 text-black">+</button></div>
+   </div>
+  </div>`).join('');
+ document.getElementById('total').textContent='Total: '+rp(total);
+ const full=total<=sisa;
+ const b=document.getElementById('splitBadge');
+ b.textContent=full?'✓ FULL KE KAMAR':'SPLIT OTOMATIS'; b.className='ml-auto text-[11px] font-bold px-3 py-1 rounded-full '+(full?'bg-emerald-400 text-black':'bg-amber-400 text-black');
+ document.getElementById('splitInfo').innerHTML=full?`Masuk folio kamar 201 semua. Bayar 1x saat check-out.`:`Sisa limit ${rp(sisa)} → <b>${rp(sisa)} ke kamar</b> + selisih <b>${rp(total-sisa)} QRIS</b> sekarang.`;
+ document.getElementById('btn').textContent=full?`Tagihkan ke Kamar 201 · ${rp(total)}`:`Bayar Split · ${rp(total)}`;
+}
+function ch(id,d){cart[id]=Math.max(0,(cart[id]||0)+d);render();}
+let orders=[{room:'201',items:'1x Nasi Goreng',st:'dimasak'}];
+function renderKit(){}
+function pesan(){const pin=document.getElementById('pin').value;if(pin.length<4)return alert('Masukkan PIN kamar 4 digit dulu (di key holder)');let total=Object.entries(cart).reduce((s,[k,q])=>s+(MENU.find(m=>m.id===k).h*q),0);alert(total<=sisa?`✅ Order ${rp(total)} → folio kamar 201 + dapur jalan.`:`✅ Split: ${rp(sisa)} ke kamar + ${rp(total-sisa)} QRIS. Masuk folio + dapur.`);}
+render();
+document.getElementById('kit').innerHTML='<div class="text-xs opacity-70">Order barumu muncul di /kitchen (dapur) + folio kasir otomatis. Coba pesan di atas.</div>';
+</script></body></html>
